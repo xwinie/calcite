@@ -48,12 +48,10 @@ public class CalciteTest2 {
 
         ResultSet resultSet = null;
         long begin = System.currentTimeMillis();
-        for (int i = 0; i < 2; i++) {
-            rootSchema.add("abc", new JsonSchema("test", json));
-            rootSchema.add("abc1", new JsonSchema("test1", json1));
-            resultSet = statement.executeQuery(
-                    "select \"test1\".USER_NAME from \"abc" + "\".\"test\" inner  join  \"abc1" + "\".\"test1\"  on  \"test1\".USER_ID=\"test\".USER_ID  order by \"test\".USER_ID desc limit 2 offset 2 ");
-        }
+        rootSchema.add("abc", new JsonSchema("test", json));
+        rootSchema.add("abc1", new JsonSchema("test1", json1));
+        resultSet = statement.executeQuery(
+                "select \"test1\".USER_NAME from \"abc" + "\".\"test\" inner  join  \"abc1" + "\".\"test1\"  on  \"test1\".USER_ID=\"test\".USER_ID  order by \"test\".USER_ID desc limit 2 offset 2 ");
         System.out.println("query:" + (System.currentTimeMillis() - begin));
 
         while (resultSet.next()) {
