@@ -1,4 +1,4 @@
-package com.xwinie.calcite;
+package com.xwinie.calcite.adapter.json;
 
 import org.apache.calcite.DataContext;
 import org.apache.calcite.linq4j.AbstractEnumerable;
