@@ -31,11 +31,11 @@ public class MainTestSchema {
         // Schema schema = ReflectiveSchema.create(calciteConnection, rootSchema, "hr",
         // new HrSchema());
 
-        Class.forName("com.mysql.jdbc.Driver");
+        Class.forName("com.mysql.cj.jdbc.Driver");
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost/hr");
-        dataSource.setUsername("flowaters");
-        dataSource.setPassword("abeffect");
+        dataSource.setUsername("root");
+        dataSource.setPassword("123456");
         Schema schema = JdbcSchema.create(rootSchema, "hr", dataSource, null, "hr");
 
         rootSchema.add("hr", schema);
