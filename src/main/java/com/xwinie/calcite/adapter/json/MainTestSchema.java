@@ -13,7 +13,7 @@ import org.apache.calcite.adapter.jdbc.JdbcSchema;
 import org.apache.calcite.jdbc.CalciteConnection;
 import org.apache.calcite.schema.Schema;
 import org.apache.calcite.schema.SchemaPlus;
-import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.commons.dbcp2.BasicDataSource;
 
 public class MainTestSchema {
 
@@ -32,17 +32,23 @@ public class MainTestSchema {
         // new HrSchema());
 
         Class.forName("com.mysql.cj.jdbc.Driver");
+        // 第一个数据库
         BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setUrl("jdbc:mysql://localhost/hr");
+        dataSource.setUrl("jdbc:mysql://192.168.138.233:33306");
         dataSource.setUsername("root");
         dataSource.setPassword("123456");
-        Schema schema = JdbcSchema.create(rootSchema, "hr", dataSource, null, "hr");
+        Schema schema = JdbcSchema.create(rootSchema, "assetbuymgr", dataSource, "assetbuymgr", null);
+        rootSchema.add("assetbuymgr", schema);
 
-        rootSchema.add("hr", schema);
+        dataSource = new BasicDataSource();
+        dataSource.setUrl("jdbc:mysql://192.168.138.235:33306");
+        dataSource.setUsername("root");
+        dataSource.setPassword("123456");
+         schema = JdbcSchema.create(rootSchema, "asspmgr", dataSource, "asspmgr", null);
+        rootSchema.add("asspmgr", schema);
         Statement statement = calciteConnection.createStatement();
         ResultSet resultSet = statement.executeQuery(
-                "select d.deptno, min(e.empid) from hr.emps as e join hr.depts as d on e.deptno = d.deptno "
-                        + "group by d.deptno having count(*) > 1");
+                "SELECT * FROM assetbuymgr.assetbuymgr_pay_comfirm_info as a inner join asspmgr.asspmgr_special_plan_basic_info  as c on  c.special_plan_periods=a.special_plan_periods ");
 
         output(resultSet, System.out);
         resultSet.close();
